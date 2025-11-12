@@ -23,5 +23,5 @@ spec:
     services: "10"
     configmaps: "30"
     secrets: "30"
-    services.loadbalancers: "1"
+    services.loadbalancers: "2"
     count/ingresses.networking.k8s.io: "5"
