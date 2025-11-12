@@ -1,0 +1,31 @@
+---
+# Environment Resources Application
+# Manages namespaces, resource quotas, and ApplicationSets for all environments
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: environment-resources
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/rsvivek25/argocd-pilot-practice
+    targetRevision: main
+    path: environments
+    directory:
+      recurse: true
+      include: '{namespace.yaml,resource-quota.yaml,applicationset.yaml}'
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

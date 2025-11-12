@@ -21,29 +21,13 @@ metadata:
 spec:
   project: default
   
-  sources:
-    # Platform infrastructure apps
-    - repoURL: https://github.com/rsvivek25/argocd-pilot-practice
-      targetRevision: main
-      path: argocd
-      directory:
-        include: 'platform-apps.yaml'
-    
-    # Environment namespaces and quotas (sync wave 2)
-    - repoURL: https://github.com/rsvivek25/argocd-pilot-practice
-      targetRevision: main
-      path: environments
-      directory:
-        recurse: true
-        include: '{namespace.yaml,resource-quota.yaml}'
-    
-    # Environment ApplicationSets (sync wave 3)
-    - repoURL: https://github.com/rsvivek25/argocd-pilot-practice
-      targetRevision: main
-      path: environments
-      directory:
-        recurse: true
-        include: 'applicationset.yaml'
+  source:
+    repoURL: https://github.com/rsvivek25/argocd-pilot-practice
+    targetRevision: main
+    path: argocd
+    directory:
+      recurse: false
+      include: '*.yaml'
   
   destination:
     server: https://kubernetes.default.svc
