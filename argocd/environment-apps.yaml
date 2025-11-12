@@ -19,7 +19,11 @@ spec:
     path: environments
     directory:
       recurse: true
-      include: '{namespace.yaml,resource-quota.yaml,applicationset.yaml}'
+      # Use glob patterns; brace expansion is not supported by ArgoCD directory source.
+      # We include all YAMLs except per-app values overrides to ensure namespaces,
+      # resource quotas, and ApplicationSets are applied.
+      include: '*.yaml'
+      exclude: '*-values.yaml'
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
