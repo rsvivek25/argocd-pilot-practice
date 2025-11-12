@@ -1,0 +1,26 @@
+apiVersion: eks.amazonaws.com/v1
+kind: NodeClass
+metadata:
+  name: basic
+spec:
+  # IAM role for nodes (substituted by Terraform)
+  role: "eks-nonprod-dev-eks-auto-20251112130238146000000002"
+  
+  # Subnet selection - use explicit subnet IDs
+  subnetSelectorTerms:
+  - id: subnet-0e73a7d816dea7856
+  - id: subnet-02bc0bc929536596c
+  - id: subnet-02654a38207b7112d
+  
+  # Security group selection - use cluster security group and additional SG
+  securityGroupSelectorTerms:
+    - id: "sg-0c6c8ce125b0c1296"
+  
+  ephemeralStorage:
+    size: "100Gi"    # Range: 1-9000Gi or 1-64000G or 1-58Ti or 1-64T
+    iops: 3000      # Range: 3000-16000
+    throughput: 125 # Range: 125-1000
+  
+  tags:
+    Environment: "dev"
+    Team: "platform"

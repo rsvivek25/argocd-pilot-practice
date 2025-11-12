@@ -1,0 +1,29 @@
+# Default values for apache
+replicaCount: 1
+
+image:
+  repository: httpd
+  pullPolicy: IfNotPresent
+  tag: "2.4"
+
+containerPort: 80
+
+service:
+  enabled: true
+  type: LoadBalancer
+  port: 80
+  targetPort: 80
+  annotations: {}
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+tolerations:
+  - key: amd64
+    effect: NoSchedule
+    operator: Exists
