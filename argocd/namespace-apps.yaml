@@ -1,11 +1,12 @@
 ---
-# Environment Resources Application
-# Manages namespaces, resource quotas, and ApplicationSets for all environments
+# Namespace and Resource Quota Application
+# Creates namespaces and resource quotas for all environments
+# Sync wave 2 - must happen before ApplicationSets
 
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: environment-resources
+  name: environment-namespaces
   namespace: argocd
   annotations:
     argocd.argoproj.io/sync-wave: "2"
@@ -16,14 +17,10 @@ spec:
   source:
     repoURL: https://github.com/rsvivek25/argocd-pilot-practice
     targetRevision: main
-    path: environments
+    path: environments/cldev01
     directory:
-      recurse: true
-      # Use glob patterns; brace expansion is not supported by ArgoCD directory source.
-      # We include all YAMLs except per-app values overrides to ensure namespaces,
-      # resource quotas, and ApplicationSets are applied.
-      include: '*.yaml'
-      exclude: '*-values.yaml'
+      recurse: false
+      include: '{namespace.yaml,resource-quota.yaml}'
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd

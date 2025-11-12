@@ -1,0 +1,30 @@
+---
+# ApplicationSet Application
+# Creates ApplicationSets for all environments
+# Sync wave 3 - happens after namespaces are created
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: environment-applicationsets
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/rsvivek25/argocd-pilot-practice
+    targetRevision: main
+    path: environments/cldev01
+    directory:
+      recurse: false
+      include: 'applicationset.yaml'
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
