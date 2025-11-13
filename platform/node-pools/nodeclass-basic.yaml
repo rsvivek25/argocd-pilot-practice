@@ -4,7 +4,7 @@ metadata:
   name: basic
 spec:
   # IAM role for nodes (substituted by Terraform)
-  role: "eks-nonprod-dev-eks-auto-20251112130238146000000002"
+  role: "eks-nonprod-dev-eks-auto-20251113140401484400000001"
   
   # Subnet selection - use explicit subnet IDs
   subnetSelectorTerms:
