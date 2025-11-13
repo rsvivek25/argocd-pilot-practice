@@ -33,13 +33,13 @@ spec:
           helm:
             releaseName: '{{ path.basename }}'
             valueFiles:
-              - ../../environments/cldev01//{{ path.basename }}/values.yaml
+              - ../../environments/cldev01/{{ path.basename }}/values.yaml
         # Source 2: External ConfigMaps (pipeline-generated)
         - repoURL: https://github.com/rsvivek25/argocd-pilot-practice
           targetRevision: main
           path: 'environments/cldev01/{{ path.basename }}/config'
           directory:
-            recurse: false
+            recurse: true
       destination:
         server: https://kubernetes.default.svc
         namespace: cldev01
