@@ -15,11 +15,11 @@ spec:
     - git:
         repoURL: https://github.com/rsvivek25/argocd-pilot-practice
         revision: main
-        files:
-          - path: 'environments/cldev01/values/*.yaml'
+        directories:
+          - path: 'environments/cldev01/*'
   template:
     metadata:
-      name: '{{ (splitList "." path.filename)[0] }}-cldev01'
+      name: '{{ path.basename }}-cldev01'
       namespace: argocd
       finalizers:
         - resources-finalizer.argocd.argoproj.io
@@ -29,15 +29,15 @@ spec:
         # Source 1: Helm chart with environment-specific values
         - repoURL: https://github.com/rsvivek25/argocd-pilot-practice
           targetRevision: main
-          path: 'charts/{{ (splitList "." path.filename)[0] }}'
+          path: 'charts/{{ path.basename }}'
           helm:
-            releaseName: '{{ (splitList "." path.filename)[0] }}'
+            releaseName: '{{ path.basename }}'
             valueFiles:
-              - ../../environments/cldev01/values/{{ (splitList "." path.filename)[0] }}.yaml
+              - ../../environments/cldev01//{{ path.basename }}/values.yaml
         # Source 2: External ConfigMaps (pipeline-generated)
         - repoURL: https://github.com/rsvivek25/argocd-pilot-practice
           targetRevision: main
-          path: 'environments/cldev01/config/{{ (splitList "." path.filename)[0] }}'
+          path: 'environments/cldev01/{{ path.basename }}/config'
           directory:
             recurse: false
       destination:
