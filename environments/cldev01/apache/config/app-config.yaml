@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: apache-app-config
+  namespace: cldev01
+  labels:
+    app: apache
+    environment: cldev01
+data:
+  # Application configuration
+  app.name: "Apache Web Server"
+  app.environment: "cldev01"
+  app.version: "2.4"
+  
+  # Logging configuration
+  log.level: "info"
+  log.format: "json"
+  
+  # Feature flags
+  feature.cache.enabled: "true"
+  feature.compression.enabled: "true"
+  
+  # Custom settings
+  max.connections: "1000"
+  timeout.seconds: "30"
