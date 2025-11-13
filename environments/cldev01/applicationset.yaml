@@ -19,7 +19,7 @@ spec:
           - path: 'environments/cldev01/*'
   template:
     metadata:
-      name: '{{ path.basename }}-cldev01'
+      name: 'cldev01-{{ path.basename }}'
       namespace: argocd
       finalizers:
         - resources-finalizer.argocd.argoproj.io
