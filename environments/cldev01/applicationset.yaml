@@ -1,7 +1,7 @@
 ---
 # ApplicationSet for cldev01 environment
-# Automatically generates Applications for all charts in charts/ directory
-# with values from this environment's values/ directory
+# Automatically generates Applications ONLY for charts that have corresponding values files
+# in environments/cldev01/values/ directory
 
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
@@ -15,11 +15,11 @@ spec:
     - git:
         repoURL: https://github.com/rsvivek25/argocd-pilot-practice
         revision: main
-        directories:
-          - path: charts/*
+        files:
+          - path: 'environments/cldev01/values/*.yaml'
   template:
     metadata:
-      name: '{{path.basename}}-cldev01'
+      name: '{{path.basenameNormalized}}-cldev01'
       namespace: argocd
       finalizers:
         - resources-finalizer.argocd.argoproj.io
@@ -29,15 +29,15 @@ spec:
         # Source 1: Helm chart with environment-specific values
         - repoURL: https://github.com/rsvivek25/argocd-pilot-practice
           targetRevision: main
-          path: '{{path}}'
+          path: 'charts/{{path.basenameNormalized}}'
           helm:
-            releaseName: '{{path.basename}}'
+            releaseName: '{{path.basenameNormalized}}'
             valueFiles:
-              - ../../environments/cldev01/values/{{path.basename}}-values.yaml
+              - ../../environments/cldev01/values/{{path.filename}}
         # Source 2: External ConfigMaps (pipeline-generated)
         - repoURL: https://github.com/rsvivek25/argocd-pilot-practice
           targetRevision: main
-          path: 'environments/cldev01/config/{{path.basename}}'
+          path: 'environments/cldev01/config/{{path.basenameNormalized}}'
           directory:
             recurse: false
       destination:

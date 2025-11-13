@@ -10,10 +10,11 @@ containerPort: 80
 
 service:
   enabled: true
-  type: ClusterIP
+  type: LoadBalancer
   port: 80
   targetPort: 80
-  annotations: {}
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: nlb
 
 resources:
   limits:
