@@ -43,7 +43,8 @@ spec:
               labelSelector:
                 matchLabels:
                   {{- include "apache.selectorLabels" . | nindent 16 }}
-              topologyKey: kubernetes.io/hostname
+              podAffinityTerm:
+                topologyKey: kubernetes.io/hostname
       strategy:
         type: RollingUpdate
         rollingUpdate:
