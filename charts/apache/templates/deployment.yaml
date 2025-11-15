@@ -39,7 +39,8 @@ spec:
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
-            - labelSelector:
+            - weight: 50
+              labelSelector:
                 matchLabels:
                   {{- include "apache.selectorLabels" . | nindent 16 }}
               topologyKey: kubernetes.io/hostname
