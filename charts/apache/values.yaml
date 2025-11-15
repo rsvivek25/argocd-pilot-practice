@@ -28,3 +28,12 @@ tolerations:
   - key: amd64
     effect: NoSchedule
     operator: Exists
+
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 1
+
+topologySpreadConstraints:
+  maxSkew: 1
+  topologyKey: topology.kubernetes.io/zone
+  whenUnsatisfiable: ScheduleAnyway

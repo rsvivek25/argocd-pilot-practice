@@ -1,6 +1,6 @@
 # Apache overrides for cldev01 (Development Environment 01)
 
-replicaCount: 2
+replicaCount: 3
 
 image:
   repository: httpd
