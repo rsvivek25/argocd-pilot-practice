@@ -36,5 +36,19 @@ spec:
         name: basic
         group: eks.amazonaws.com
         kind: NodeClass
+  disruption:
+    consolidationPolicy: WhenEmptyOrUnderutilized
+    consolidateAfter: 1m
+    budgets:
+      - nodes: "10%"
+        # Cron schedule: Start at 6 PM EST (11 PM UTC) daily
+        schedule: "0 23 * * *"
+        duration: 8h
+        # Disruptions allowed from 6 PM to 2 AM EST (23:00-07:00 UTC)
+        # This is outside US business hours (9 AM - 6 PM EST)
+      - nodes: "0"
+        # No disruptions during US business hours (2 AM - 6 PM EST)
+        schedule: "0 7 * * *"
+        duration: 16h
   limits:
     cpu: 1000
