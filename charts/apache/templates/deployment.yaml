@@ -42,8 +42,15 @@ spec:
             - weight: 50
               podAffinityTerm:
                 labelSelector:
-                  matchLabels:
-                    {{- include "apache.selectorLabels" . | nindent 18 }}
+                  matchExpressions:
+                    - key: app.kubernetes.io/name
+                      operator: In
+                      values:
+                        - {{ include "apache.name" . }}
+                    - key: app.kubernetes.io/instance
+                      operator: In
+                      values:
+                        - {{ .Release.Name }}
                 topologyKey: kubernetes.io/hostname
       strategy:
         type: RollingUpdate
