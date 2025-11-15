@@ -38,7 +38,7 @@ spec:
               {{- include "apache.selectorLabels" . | nindent 14 }}
       affinity:
         podAntiAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
+          preferredDuringSchedulingIgnoredDuringExecution:
             - labelSelector:
                 matchLabels:
                   {{- include "apache.selectorLabels" . | nindent 16 }}
